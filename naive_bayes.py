@@ -9,26 +9,12 @@ from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 import seaborn as sns
 import csv
-from pandas.api.types import is_string_dtype
 
-import itertools
+import preprocessing
 
-df = pd.read_csv('3425_data.csv',sep=',', engine='python')
-#df = df.drop(['srcid', 'Mode', 'sDevType','p_gender_sdc','p_age_group_sdc','p_education_sdc','total_time_taken','neutral_count','disagree_count','agree_count','very_count','just_count','vmj_count','opinionated','undecided_voter'], axis=1)
-#df = df.drop(['Q1','Q2','Q5a','Q5f','Q6c','Q7a','Q7c','Q8a','Q8d','Q10a','Q10d','Q11','Q11a','Q12','Q14','Q15','Q16','Q18'], axis=1)
-df = df.drop(['srcid', 'Mode', "total_time_taken",'neutral_count','disagree_count','agree_count','very_count','just_count','vmj_count'], axis=1)
-for i, col in enumerate(df.columns):
-    if is_string_dtype(df[col]):
-        df.iloc[:, i] = df.iloc[:, i].str.replace('"', '')
-        #df.iloc[:, i] = df.iloc[:, i].str.replace('-', '')
-        df.iloc[:, i] = df.iloc[:, i].str.replace('NaN', '0')
+df = preprocessing.getPreprocessedFile()
 
-df.fillna(0, inplace=True)
-for column in df:
-    df[column] = pd.to_numeric(df[column])
 
-for column in df:
-    df[column] = pd.Categorical(df[column])
 dummy_df = pd.DataFrame()
 for column in df:
     if column == "Q4":
