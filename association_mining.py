@@ -37,6 +37,8 @@ for _,rule in rules.iterrows():
             keep = True
         if con.startswith("p_education"):
             keep = True
+        if con.startswith("Q4"):
+            keep = True
     if not skip and keep:
         rule_tups.append((rule["antecedents"], rule["consequents"], rule["confidence"], rule["lift"]))
 

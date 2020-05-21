@@ -6,6 +6,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.naive_bayes import CategoricalNB
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix, classification_report
 import matplotlib.pyplot as plt
 import seaborn as sns
 import csv
@@ -37,8 +38,13 @@ for col in dummy_q4:
     model.fit(x_train, y_train)
 
     y_pred = model.predict(x_test)
+    confusion = confusion_matrix(y_test, y_pred)
+    report = classification_report(y_test, y_pred)
+    #print(y_pred)
 
     accuracy = accuracy_score(y_test, y_pred)*100
     important_neg_features= pd.DataFrame(data=np.transpose(model.feature_log_prob_).astype("float32"),index=x_train.columns)[0].sort_values()
     important_pos_features= pd.DataFrame(data=np.transpose(model.feature_log_prob_).astype("float32"),index=x_train.columns)[1].sort_values()
     print(col, accuracy)
+    print(confusion)
+    print(report)
